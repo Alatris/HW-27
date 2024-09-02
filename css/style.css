@@ -1,15 +1,26 @@
+.slider-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .slider {
-    position: relative;
+    display: flex;
     overflow: hidden;
+    width: 400px;
+    height: 300px;
 }
+
 .slide {
-    position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
-    opacity: 0;
-    transition: opacity 0.5s ease-in-out;
+    height: 100%;
 }
+
 .active {
     opacity: 1;
+}
+
+.buttons-container {
+    display: flex;
+    justify-content: center;
 }

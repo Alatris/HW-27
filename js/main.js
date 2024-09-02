@@ -6,10 +6,9 @@ const playPauseBtn = document.querySelector('.play-pause');
 const dotsContainer = document.querySelector('.dots');
 
 let slideIndex = 0;
-let intervalId;
+let intervalId = null; // Використовуємо null для початкового стану
 const autoplay = true;
-const autoplayInterval = 3000;
-
+const autoplayInterval = 5000;
 
 const createDots = () => {
     for (let i = 0; i < slides.length; i++) {
@@ -19,14 +18,12 @@ const createDots = () => {
     }
 };
 
-
 const showSlide = (n) => {
     slides[slideIndex].classList.remove('active');
     slideIndex = (n + slides.length) % slides.length;
     slides[slideIndex].classList.add('active');
     updateDots();
 };
-
 
 const updateDots = () => {
     const dots = document.querySelectorAll('.dot');
@@ -35,14 +32,24 @@ const updateDots = () => {
     });
 };
 
+prevBtn.addEventListener('click', handlePrevClick);
+nextBtn.addEventListener('click', handleNextClick);
 
 const autoplaySlide = () => {
     showSlide(slideIndex + 1);
 };
 
+const handlePrevClick = () => {
+    showSlide((slideIndex - 1 + slides.length) % slides.length);
+};
 
-prevBtn.addEventListener('click', () => showSlide(slideIndex - 1));
-nextBtn.addEventListener('click', () => showSlide(slideIndex + 1));
+const handleNextClick = () => {
+    showSlide((slideIndex + 1) % slides.length);
+};
+
+prevBtn.addEventListener('click', handlePrevClick);
+nextBtn.addEventListener('click', handleNextClick);
+
 playPauseBtn.addEventListener('click', () => {
     if (intervalId) {
         clearInterval(intervalId);
@@ -54,13 +61,11 @@ playPauseBtn.addEventListener('click', () => {
     }
 });
 
-
 dotsContainer.addEventListener('click', (event) => {
     if (event.target.classList.contains('dot')) {
         showSlide(Array.from(dotsContainer.children).indexOf(event.target));
     }
 });
-
 
 createDots();
 showSlide(slideIndex);
