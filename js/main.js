@@ -2,12 +2,13 @@ const slider = document.querySelector('.slider');
 const slides = document.querySelectorAll('.slide');
 const prevBtn = document.querySelector('.prev');
 const nextBtn = document.querySelector('.next');
-const playPauseBtn = document.querySelector('.play-pause');
+const playPauseBtn = document.querySelector('.play-pause'); // Optional
 const dotsContainer = document.querySelector('.dots');
 
 let slideIndex = 0;
 let intervalId = null;
 const autoplay = true;
+let isAutoplaying = autoplay; // Track autoplay state (true/false)
 const autoplayInterval = 5000;
 
 
@@ -20,10 +21,12 @@ function showSlide(n) {
 
 function handlePrevClick() {
     showSlide(slideIndex - 1);
+    event.stopPropagation(); // Prevent bubbling
 }
 
 function handleNextClick() {
     showSlide(slideIndex + 1);
+    event.stopPropagation(); // Prevent bubbling
 }
 
 function updateDots() {
@@ -35,7 +38,9 @@ function updateDots() {
 
 
 function autoplaySlide() {
-    showSlide(slideIndex + 1);
+    if (isAutoplaying) { // Check autoplay state before showing next slide
+        showSlide(slideIndex + 1);
+    }
 }
 
 function createDots() {
@@ -63,3 +68,15 @@ if (autoplay) {
 }
 
 createDots();
+
+// Optional: Functionality for play/pause button (if present)
+if (playPauseBtn) {
+    playPauseBtn.addEventListener('click', () => {
+        isAutoplaying = !isAutoplaying; // Toggle autoplay state
+        if (isAutoplaying) {
+            intervalId = setInterval(autoplaySlide, autoplayInterval);
+        } else {
+            clearInterval(intervalId);
+        }
+    });
+}
