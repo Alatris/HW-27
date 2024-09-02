@@ -17,6 +17,7 @@ function showSlide(n) {
     slideIndex = (n + slides.length) % slides.length;
     slides[slideIndex].classList.add('active');
     updateDots();
+
 }
 
 function handlePrevClick() {
